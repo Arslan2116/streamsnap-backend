@@ -2,61 +2,84 @@
 
 {% block content %}
 <style>
+    /* --- DYNAMIC THEME VARIABLES --- */
+    :root {
+        --theme-color: #6366f1; /* Default Purple */
+        --theme-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        --theme-shadow: rgba(99, 102, 241, 0.4);
+    }
+
     /* --- HERO SECTION --- */
-    .hero-badge { background: rgba(99, 102, 241, 0.1); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.2); padding: 6px 16px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; }
+    .hero-badge { 
+        background: rgba(255, 255, 255, 0.05); 
+        color: white; 
+        border: 1px solid var(--theme-color); 
+        padding: 6px 16px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; 
+        transition: 0.3s;
+    }
     
     .gradient-text { background: linear-gradient(135deg, #fff 0%, #94a3b8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .gradient-highlight { background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    
+    /* Ye text rang badlega jab link paste hoga */
+    .gradient-highlight { 
+        background: var(--theme-gradient); 
+        -webkit-background-clip: text; 
+        -webkit-text-fill-color: transparent; 
+        transition: 0.5s;
+    }
 
     /* --- TABS --- */
     .platform-tabs { display: inline-flex; background: rgba(255,255,255,0.03); padding: 5px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 30px; }
     .tab-btn { background: transparent; border: none; color: #94a3b8; padding: 10px 25px; border-radius: 40px; font-weight: 500; transition: all 0.3s; }
-    .tab-btn.active { background: #1e293b; color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+    
+    /* Active Tab Rang Badlega */
+    .tab-btn.active { 
+        background: var(--theme-color); 
+        color: white; 
+        box-shadow: 0 4px 12px var(--theme-shadow); 
+    }
     .tab-btn:hover { color: white; }
 
     /* --- INPUT BOX --- */
     .search-container { max-width: 800px; margin: 0 auto; position: relative; }
     .main-input { background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 25px 180px 25px 60px; border-radius: 20px; width: 100%; font-size: 1.1rem; outline: none; transition: 0.3s; backdrop-filter: blur(5px); }
-    .main-input:focus { border-color: #818cf8; background: rgba(30, 41, 59, 0.8); box-shadow: 0 0 0 4px rgba(129, 140, 248, 0.1); }
+    .main-input:focus { border-color: var(--theme-color); background: rgba(30, 41, 59, 0.8); box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05); }
     
-    .input-icon { position: absolute; left: 25px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 1.2rem; }
+    .input-icon { position: absolute; left: 25px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 1.2rem; transition: 0.3s; }
     
     .action-group { position: absolute; right: 10px; top: 10px; bottom: 10px; display: flex; gap: 10px; }
     .btn-paste { background: rgba(255,255,255,0.05); color: #94a3b8; border: none; padding: 0 20px; border-radius: 12px; font-weight: 500; }
-    .btn-start { background: linear-gradient(135deg, #6366f1, #a855f7); color: white; border: none; padding: 0 30px; border-radius: 12px; font-weight: 600; font-size: 1.1rem; transition: 0.3s; }
-    .btn-start:hover { opacity: 0.9; transform: translateY(-1px); }
+    
+    /* START BUTTON (Iska rang bhi auto change hoga) */
+    .btn-start { 
+        background: var(--theme-gradient); 
+        color: white; border: none; padding: 0 30px; border-radius: 12px; font-weight: 600; font-size: 1.1rem; transition: 0.3s; 
+    }
+    .btn-start:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 0 15px var(--theme-shadow); }
 
-    /* --- CARDS (Features & Steps) --- */
-    .feature-card { background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: 24px; height: 100%; transition: 0.3s; }
-    .feature-card:hover { background: rgba(30, 41, 59, 0.6); transform: translateY(-5px); border-color: rgba(255,255,255,0.1); }
-    .icon-box { width: 50px; height: 50px; background: rgba(129, 140, 248, 0.1); color: #818cf8; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px; }
-
-    .step-circle { width: 60px; height: 60px; background: #1e293b; border: 2px solid rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #a855f7; margin: 0 auto 20px; position: relative; z-index: 2; }
-    .step-line { position: absolute; top: 30px; left: 0; width: 100%; height: 2px; background: rgba(255,255,255,0.1); z-index: 1; display: none; }
-    @media(min-width: 768px) { .step-line { display: block; } }
-
-    /* Result Area */
+    /* --- Result Area --- */
     #result-area { display: none; max-width: 600px; margin: 40px auto; background: #1e293b; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+    .dl-btn-dynamic { background: var(--theme-color); color: white; padding: 12px; border-radius: 8px; text-decoration: none; display: block; text-align: center; font-weight: bold; }
 </style>
 
 <div class="container text-center py-5">
-    <span class="hero-badge mb-4 d-inline-block">✨ AI-POWERED MEDIA EXTRACTION</span>
+    <span class="hero-badge mb-4 d-inline-block" id="status-badge">✨ AI-POWERED MEDIA EXTRACTION</span>
     <h1 class="display-3 fw-bold mb-3 gradient-text">Download Social Media</h1>
-    <h1 class="display-3 fw-bold mb-4 gradient-highlight">Without Watermark</h1>
+    <h1 class="display-3 fw-bold mb-4 gradient-highlight" id="brand-heading">Without Watermark</h1>
     <p class="text-secondary lead mb-5 mx-auto" style="max-width: 600px;">
-        Professional-grade tool to save TikToks, Instagram Reels, and YouTube Shorts in pristine quality. No limits, no ads.
+        Professional-grade tool to save TikToks, Instagram Reels, and YouTube Shorts.
     </p>
 
     <div class="platform-tabs">
-        <button class="tab-btn active" onclick="setPlatform('TikTok')"><i class="bi bi-tiktok"></i> TikTok</button>
-        <button class="tab-btn" onclick="setPlatform('Instagram')"><i class="bi bi-instagram"></i> Instagram</button>
-        <button class="tab-btn" onclick="setPlatform('YouTube')"><i class="bi bi-youtube"></i> YouTube</button>
-        <button class="tab-btn" onclick="setPlatform('Facebook')"><i class="bi bi-facebook"></i> Facebook</button>
+        <button class="tab-btn active" id="tab-tiktok" onclick="manualSelect('TikTok')"><i class="bi bi-tiktok"></i> TikTok</button>
+        <button class="tab-btn" id="tab-instagram" onclick="manualSelect('Instagram')"><i class="bi bi-instagram"></i> Instagram</button>
+        <button class="tab-btn" id="tab-youtube" onclick="manualSelect('YouTube')"><i class="bi bi-youtube"></i> YouTube</button>
+        <button class="tab-btn" id="tab-facebook" onclick="manualSelect('Facebook')"><i class="bi bi-facebook"></i> Facebook</button>
     </div>
 
     <div class="search-container">
-        <i class="bi bi-link-45deg input-icon"></i>
-        <input type="text" id="url-input" class="main-input" placeholder="Paste TikTok video link...">
+        <i class="bi bi-link-45deg input-icon" id="input-icon"></i>
+        <input type="text" id="url-input" class="main-input" placeholder="Paste video link here..." oninput="autoDetectPlatform()">
         <div class="action-group">
             <button class="btn-paste" onclick="pasteLink()"><i class="bi bi-clipboard"></i> Paste</button>
             <button class="btn-start" id="btn-action" onclick="downloadMedia()">Start <i class="bi bi-chevron-right"></i></button>
@@ -64,7 +87,7 @@
     </div>
     
     <div id="loading" class="mt-5" style="display: none;">
-        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status"></div>
+        <div class="spinner-border" style="color: var(--theme-color);" role="status"></div>
         <p class="text-secondary mt-3">Fetching video data...</p>
     </div>
 
@@ -73,96 +96,89 @@
         <div class="p-4 text-start">
             <h5 id="title" class="text-white mb-2 text-truncate">Video Title</h5>
             <p class="text-secondary small mb-4">Quality: HD • Source: <span id="source-tag">Unknown</span></p>
-            <a id="dl-link" href="#" class="btn btn-primary w-100 py-3 rounded-3 fw-bold">Download Video <i class="bi bi-download ms-2"></i></a>
-        </div>
-    </div>
-</div>
-
-<div id="how-it-works" class="container py-5 mt-5 position-relative">
-    <div class="text-center mb-5">
-        <h2 class="fw-bold mb-3">How It Works</h2>
-        <p class="text-secondary">Get your favorite videos in three simple steps.</p>
-    </div>
-    
-    <div class="row text-center position-relative">
-        <div class="step-line"></div>
-        <div class="col-md-4 mb-4">
-            <div class="step-circle"><i class="bi bi-copy"></i></div>
-            <h5 class="fw-bold mt-4">1. Copy the Link</h5>
-            <p class="text-secondary small">Find the video you want and copy its URL.</p>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="step-circle"><i class="bi bi-magic"></i></div>
-            <h5 class="fw-bold mt-4">2. Paste & Process</h5>
-            <p class="text-secondary small">Paste the link into the box above. AI does the rest.</p>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="step-circle"><i class="bi bi-download"></i></div>
-            <h5 class="fw-bold mt-4">3. Download File</h5>
-            <p class="text-secondary small">Save the watermark-free video instantly.</p>
-        </div>
-    </div>
-</div>
-
-<div id="features" class="container py-5 mb-5">
-    <div class="text-center mb-5">
-        <h2 class="fw-bold mb-3">Why use StreamSnap?</h2>
-        <p class="text-secondary">The most reliable tool for offline viewing.</p>
-    </div>
-
-    <div class="row g-4">
-        <div class="col-md-3 col-6">
-            <div class="feature-card">
-                <div class="icon-box"><i class="bi bi-lightning-charge-fill"></i></div>
-                <h5 class="fw-bold mb-2">Lightning Fast</h5>
-                <p class="text-secondary small mb-0">AI processes links in milliseconds.</p>
-            </div>
-        </div>
-        <div class="col-md-3 col-6">
-            <div class="feature-card">
-                <div class="icon-box"><i class="bi bi-shield-check-fill"></i></div>
-                <h5 class="fw-bold mb-2">100% Secure</h5>
-                <p class="text-secondary small mb-0">No history stored. Completely private.</p>
-            </div>
-        </div>
-        <div class="col-md-3 col-6">
-            <div class="feature-card">
-                <div class="icon-box"><i class="bi bi-droplet-half"></i></div>
-                <h5 class="fw-bold mb-2">No Watermarks</h5>
-                <p class="text-secondary small mb-0">Pristine quality without logos.</p>
-            </div>
-        </div>
-        <div class="col-md-3 col-6">
-            <div class="feature-card">
-                <div class="icon-box"><i class="bi bi-phone-fill"></i></div>
-                <h5 class="fw-bold mb-2">Mobile Ready</h5>
-                <p class="text-secondary small mb-0">Optimized for iPhone & Android.</p>
-            </div>
+            <a id="dl-link" href="#" class="dl-btn-dynamic">Download Video <i class="bi bi-download ms-2"></i></a>
         </div>
     </div>
 </div>
 
 <script>
-    // Tab Switching Logic (Visual)
-    function setPlatform(platform) {
-        document.getElementById('url-input').placeholder = `Paste ${platform} video link...`;
+    // --- 1. CONFIGURATION (Colors Set karein) ---
+    const brands = {
+        'TikTok': { 
+            color: '#ff0050', // TikTok Pink/Red
+            gradient: 'linear-gradient(135deg, #00f2ea 0%, #ff0050 100%)', // Neon Split
+            icon: 'bi-tiktok'
+        },
+        'Instagram': { 
+            color: '#d62976', 
+            gradient: 'linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)', // Insta Gradient
+            icon: 'bi-instagram'
+        },
+        'YouTube': { 
+            color: '#ff0000', 
+            gradient: 'linear-gradient(135deg, #ff0000 0%, #cc0000 100%)', // Pure Red
+            icon: 'bi-youtube'
+        },
+        'Facebook': { 
+            color: '#1877f2', 
+            gradient: 'linear-gradient(135deg, #1877f2 0%, #0c5dc7 100%)', // FB Blue
+            icon: 'bi-facebook'
+        },
+        'Default': { 
+            color: '#6366f1', 
+            gradient: 'linear-gradient(135deg, #6366f1 0%, #a855f7 100%)', // StreamSnap Purple
+            icon: 'bi-link-45deg'
+        }
+    };
+
+    // --- 2. AUTO DETECT LOGIC ---
+    function autoDetectPlatform() {
+        const url = document.getElementById('url-input').value.toLowerCase();
         
-        // Buttons active state change
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        event.target.closest('button').classList.add('active');
+        if (url.includes('tiktok.com')) { applyTheme('TikTok'); }
+        else if (url.includes('instagram.com')) { applyTheme('Instagram'); }
+        else if (url.includes('youtube.com') || url.includes('youtu.be')) { applyTheme('YouTube'); }
+        else if (url.includes('facebook.com') || url.includes('fb.watch')) { applyTheme('Facebook'); }
+        else if (url === '') { applyTheme('Default'); }
     }
 
-    // Paste Button Logic
+    // --- 3. THEME CHANGER ---
+    function applyTheme(platform) {
+        const theme = brands[platform] || brands['Default'];
+
+        // CSS Variables Update (Magic Line)
+        const root = document.documentElement;
+        root.style.setProperty('--theme-color', theme.color);
+        root.style.setProperty('--theme-gradient', theme.gradient);
+        root.style.setProperty('--theme-shadow', theme.color + '66'); // Adding transparency
+
+        // Tabs Active State
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        const activeTab = document.getElementById(`tab-${platform.toLowerCase()}`);
+        if(activeTab) activeTab.classList.add('active');
+
+        // Input Icon Change
+        const iconElement = document.getElementById('input-icon');
+        iconElement.className = `bi ${theme.icon} input-icon`;
+        iconElement.style.color = theme.color;
+    }
+
+    // Manual Click
+    function manualSelect(platform) {
+        applyTheme(platform);
+        document.getElementById('url-input').placeholder = `Paste ${platform} link...`;
+    }
+
+    // Paste & Auto Check
     async function pasteLink() {
         try {
             const text = await navigator.clipboard.readText();
             document.getElementById('url-input').value = text;
-        } catch (err) {
-            alert('Failed to read clipboard');
-        }
+            autoDetectPlatform(); // Paste ke foran baad check karo
+        } catch (err) { alert('Clipboard permission needed'); }
     }
 
-    // Download Logic (Backend Connect)
+    // Download Logic (Same as before)
     async function downloadMedia() {
         const input = document.getElementById('url-input');
         const btn = document.getElementById('btn-action');
@@ -171,7 +187,6 @@
 
         if (!input.value) { alert("Please paste a link!"); return; }
 
-        // UI Reset
         btn.disabled = true; btn.innerHTML = '<i class="bi bi-hourglass-split"></i>';
         loading.style.display = 'block'; result.style.display = 'none';
 
@@ -185,21 +200,18 @@
             
             loading.style.display = 'none'; btn.disabled = false; btn.innerHTML = 'Start <i class="bi bi-chevron-right"></i>';
 
-            if (data.error) { alert("Error: " + data.error); } 
+            if (data.error) { alert(data.error); } 
             else {
                 document.getElementById('thumb').src = data.thumbnail;
                 document.getElementById('title').innerText = data.title;
                 document.getElementById('source-tag').innerText = data.platform;
                 document.getElementById('dl-link').href = data.download_url;
                 result.style.display = 'block';
-                // Scroll to result
                 result.scrollIntoView({ behavior: 'smooth' });
             }
         } catch (e) { 
-            alert("Error connecting to server"); 
-            loading.style.display = 'none'; 
-            btn.disabled = false; 
-            btn.innerHTML = 'Start <i class="bi bi-chevron-right"></i>';
+            alert("Error"); 
+            loading.style.display = 'none'; btn.disabled = false; btn.innerHTML = 'Start'; 
         }
     }
 </script>
