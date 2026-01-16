@@ -2,36 +2,42 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import yt_dlp
 
-# Template folder set karna
 app = Flask(__name__, template_folder='templates')
 CORS(app)
 
+# --- YE HAIN WO RAASTE JO MISSING THAY ---
 @app.route('/')
 def home():
-    # Ye line zaroori hai: Design dikhane ke liye
     return render_template('index.html')
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/privacy')
+def privacy():
+    # Agar privacy file na mile to about hi dikha dega filhal
+    try:
+        return render_template('privacy.html')
+    except:
+        return render_template('about.html')
+
+# --- ENGINE ---
 @app.route('/get-video', methods=['POST'])
 def get_video():
     data = request.get_json()
     url = data.get('url')
     format_type = data.get('type', 'video')
     
-    if not url:
-        return jsonify({'error': 'No URL provided'}), 400
+    if not url: return jsonify({'error': 'No URL provided'}), 400
 
     ydl_opts = {
-        'quiet': True,
-        'no_warnings': True,
-        'nocheckcertificate': True,
-        'geo_bypass': True,
+        'quiet': True, 'no_warnings': True, 'geo_bypass': True,
         'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
     }
 
-    if format_type == 'audio':
-        ydl_opts['format'] = 'bestaudio/best'
-    else:
-        ydl_opts['format'] = 'best'
+    if format_type == 'audio': ydl_opts['format'] = 'bestaudio/best'
+    else: ydl_opts['format'] = 'best'
 
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
