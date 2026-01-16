@@ -37,8 +37,7 @@ def get_video():
     }
 
     if format_type == 'audio': ydl_opts['format'] = 'bestaudio/best'
-    else: ydl_opts['format'] = 'best'
-
+else: ydl_opts['format'] = 'best[ext=mp4]/best'
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)
