@@ -1,139 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "layout.html" %}
+
+{% block content %}
+<style>
+    /* Sirf Home Page ka Design */
+    .hero-section { padding: 80px 20px; text-align: center; }
+    .gradient-text { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
+    .downloader-box { max-width: 700px; margin: 40px auto; background: #1e293b; padding: 10px; border-radius: 16px; display: flex; gap: 10px; border: 1px solid #334155; }
+    .url-input { background: transparent; border: none; color: white; padding: 15px; flex-grow: 1; outline: none; }
+    .format-select { background: #0f172a; color: white; border: none; padding: 0 15px; border-radius: 8px; }
+    .btn-process { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); border: none; padding: 12px 30px; border-radius: 10px; color: white; font-weight: 600; }
     
-    <title>StreamSnap - Download TikTok, Instagram & YouTube (No Watermark)</title>
-    <meta name="description" content="Free Online Video Downloader. Save TikToks without watermark, Instagram Reels, YouTube Shorts, and Facebook videos in HD MP4 and MP3 quality. Fast & Secure.">
-    <meta name="keywords" content="tiktok downloader, instagram saver, youtube shorts download, no watermark, streamsnap, mp4, mp3">
-    
-    <meta property="og:title" content="StreamSnap - Best Video Downloader">
-    <meta property="og:description" content="Download HD videos from TikTok, Insta, and YT without watermark. Try it now!">
-    <meta property="og:type" content="website">
+    #result-area { display: none; max-width: 500px; margin: 30px auto; background: #1e293b; border-radius: 15px; padding: 20px; border: 1px solid #334155; }
+    .dl-btn { display: block; background: #10b981; color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px; text-align: center; }
+</style>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    
-    <style>
-        /* StreamSnap Theme */
-        :root {
-            --bg-dark: #020617;
-            --card-bg: #0f172a;
-            --text-main: #f8fafc;
-            --gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-        }
-        body { background-color: var(--bg-dark); color: var(--text-main); font-family: sans-serif; }
-        
-        .navbar-brand { font-weight: 700; font-size: 1.5rem; color: white !important; display: flex; align-items: center; gap: 10px; }
-        .logo-icon { background: var(--gradient); width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-        
-        .hero-section { padding: 80px 20px; text-align: center; }
-        .gradient-text { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
-        
-        .downloader-box {
-            max-width: 700px; margin: 40px auto; background: #0f172a; border: 1px solid #1e293b;
-            padding: 10px; border-radius: 16px; display: flex; gap: 10px; flex-wrap: wrap;
-            box-shadow: 0 0 50px rgba(99, 102, 241, 0.1);
-        }
-        .url-input { background: transparent; border: none; color: white; padding: 15px; flex-grow: 1; outline: none; }
-        .format-select { background: #1e293b; color: white; border: none; padding: 0 15px; border-radius: 8px; }
-        .btn-process { background: var(--gradient); border: none; padding: 12px 30px; border-radius: 10px; color: white; font-weight: 600; }
-        .btn-process:disabled { opacity: 0.7; cursor: not-allowed; }
+<div class="hero-section">
+    <span class="badge rounded-pill bg-primary bg-opacity-25 text-primary mb-3 px-3 py-2">V 3.0 - PRO</span>
+    <h1 class="display-4 fw-bold">Download Social Media</h1>
+    <h1 class="display-4 fw-bold gradient-text mb-4">Without Watermark</h1>
+    <p class="text-secondary lead mb-5">Paste links from TikTok, Instagram, YouTube & Facebook.</p>
 
-        #result-area { display: none; max-width: 500px; margin: 30px auto; background: var(--card-bg); border-radius: 15px; padding: 20px; border: 1px solid #334155; }
-        .thumb-img { width: 100%; border-radius: 10px; margin-bottom: 15px; }
-        .dl-btn { display: block; background: #10b981; color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px; text-align: center; }
-        .dl-btn:hover { background: #059669; color: white; }
-    </style>
-</head>
-<body>
-
-    <nav class="container navbar py-3">
-        <a href="/" class="navbar-brand">
-            <div class="logo-icon"><i class="bi bi-download"></i></div> StreamSnap
-        </a>
-    </nav>
-
-    <div class="hero-section">
-        <span class="badge rounded-pill text-bg-primary bg-opacity-25 text-primary mb-3 px-3 py-2">V 2.0 - AI POWERED</span>
-        <h1 class="display-4 fw-bold">Download Social Media</h1>
-        <h1 class="display-4 fw-bold gradient-text mb-4">Without Watermark</h1>
-        <p class="text-secondary lead mb-5">Supports TikTok, Instagram Reels, YouTube Shorts & Facebook.</p>
-
-        <div class="downloader-box">
-            <input type="text" id="url-input" class="url-input" placeholder="Paste link here...">
-            <select id="format-select" class="format-select">
-                <option value="video">Video (HD)</option>
-                <option value="audio">Audio (MP3)</option>
-            </select>
-            <button onclick="downloadMedia()" id="btn-action" class="btn-process">Start ></button>
-        </div>
-
-        <div id="loading" class="mt-4" style="display: none;">
-            <div class="spinner-border text-primary" role="status"></div>
-            <p class="text-secondary mt-2">Connecting to server...</p>
-        </div>
-
-        <div id="result-area">
-            <img id="thumb" src="" class="thumb-img">
-            <h5 id="title" class="text-white mb-3">Title</h5>
-            <a id="dl-link" href="#" class="dl-btn" target="_blank">Download</a>
-            <button onclick="location.reload()" class="btn btn-outline-secondary btn-sm mt-3 w-100">Convert Another</button>
-        </div>
+    <div class="downloader-box">
+        <input type="text" id="url-input" class="url-input" placeholder="Paste link here...">
+        <select id="format-select" class="format-select">
+            <option value="video">Video (HD)</option>
+            <option value="audio">Audio (MP3)</option>
+        </select>
+        <button onclick="downloadMedia()" id="btn-action" class="btn-process">Start ></button>
     </div>
 
-    <script>
-        async function downloadMedia() {
-            const input = document.getElementById('url-input');
-            const format = document.getElementById('format-select');
-            const btn = document.getElementById('btn-action');
-            const loading = document.getElementById('loading');
-            const result = document.getElementById('result-area');
+    <div id="loading" class="mt-4" style="display: none;">
+        <div class="spinner-border text-primary" role="status"></div>
+    </div>
 
-            if (!input.value) { alert("Please paste a link first!"); return; }
+    <div id="result-area">
+        <img id="thumb" src="" class="w-100 rounded mb-3">
+        <h5 id="title" class="text-white mb-3">Title</h5>
+        <a id="dl-link" href="#" class="dl-btn" target="_blank">Download</a>
+    </div>
+</div>
 
-            // UI Changes
-            btn.disabled = true;
-            btn.innerHTML = 'Fetching...';
-            loading.style.display = 'block';
-            result.style.display = 'none';
+<script>
+    async function downloadMedia() {
+        // (Yahan wohi purana JS code jo pehle diya tha - Logic same rahegi)
+        const input = document.getElementById('url-input');
+        const format = document.getElementById('format-select');
+        const btn = document.getElementById('btn-action');
+        const loading = document.getElementById('loading');
+        const result = document.getElementById('result-area');
 
-            try {
-                // Backend API Call (Same Domain)
-                const response = await fetch('/get-video', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url: input.value, type: format.value })
-                });
+        if (!input.value) { alert("Please paste a link!"); return; }
 
-                const data = await response.json();
-                
-                loading.style.display = 'none';
-                btn.disabled = false;
-                btn.innerHTML = 'Start >';
+        btn.disabled = true; btn.innerText = '...';
+        loading.style.display = 'block'; result.style.display = 'none';
 
-                if (data.error) {
-                    alert("Error: " + data.error);
-                } else {
-                    document.getElementById('thumb').src = data.thumbnail;
-                    document.getElementById('title').innerText = data.title;
-                    document.getElementById('dl-link').href = data.download_url;
-                    
-                    if (format.value === 'audio') {
-                        document.getElementById('dl-link').innerHTML = '<i class="bi bi-music-note"></i> Download MP3';
-                    } else {
-                        document.getElementById('dl-link').innerHTML = '<i class="bi bi-download"></i> Download HD Video';
-                    }
-                    result.style.display = 'block';
-                }
-            } catch (err) {
-                console.error(err);
-                loading.style.display = 'none';
-                btn.disabled = false;
-                alert("Server Error. Please try again.");
+        try {
+            const response = await fetch('/get-video', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url: input.value, type: format.value })
+            });
+            const data = await response.json();
+            
+            loading.style.display = 'none'; btn.disabled = false; btn.innerText = 'Start >';
+
+            if (data.error) { alert(data.error); } 
+            else {
+                document.getElementById('thumb').src = data.thumbnail;
+                document.getElementById('title').innerText = data.title;
+                document.getElementById('dl-link').href = data.download_url;
+                result.style.display = 'block';
             }
-        }
-    </script>
-</body>
-</html>
+        } catch (e) { alert("Error"); loading.style.display = 'none'; btn.disabled = false; }
+    }
+</script>
+{% endblock %}

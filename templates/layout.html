@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamSnap - Social Media Downloader</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <style>
+        /* Global Theme */
+        body { background-color: #020617; color: #f8fafc; display: flex; flex-direction: column; min-height: 100vh; }
+        
+        /* Navbar (Header) */
+        .navbar { background-color: #0f172a; border-bottom: 1px solid #1e293b; padding: 15px 0; }
+        .navbar-brand { font-weight: 700; color: white !important; display: flex; align-items: center; gap: 10px; }
+        .logo-box { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); width: 35px; height: 35px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+        .nav-link { color: #94a3b8 !important; font-weight: 500; margin-left: 15px; }
+        .nav-link:hover { color: white !important; }
+
+        /* Main Content Area */
+        main { flex: 1; }
+
+        /* Footer */
+        footer { background-color: #0f172a; border-top: 1px solid #1e293b; padding: 40px 0; margin-top: auto; }
+        .footer-link { color: #94a3b8; text-decoration: none; margin: 0 10px; font-size: 0.9rem; }
+        .footer-link:hover { color: #a855f7; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <div class="logo-box"><i class="bi bi-download"></i></div>
+                StreamSnap
+            </a>
+            <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/privacy">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container text-center">
+            <p class="mb-2 text-white fw-bold">StreamSnap &copy; 2026</p>
+            <p class="text-secondary small mb-3">Download videos from TikTok, Instagram & YouTube freely.</p>
+            <div>
+                <a href="/about" class="footer-link">About Us</a>
+                <a href="/privacy" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Contact</a>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
